@@ -4,8 +4,11 @@ function init(){
 	$(document).ready(function(){
 //定义全局变量 map
 var map;
-// var search=ko.observable("");
-// var names=['天安门','故宫博物院','汉庭酒店','医院','王府井百货'];
+
+/*问题说明*/
+// m在ko.computed()内是undefined 在其他环境中是正常的 这是什么原因呢？
+// 导致m.search()也是undefined的  筛选功能暂时无法完成
+
 
 	var m={
 		initCenter:[116.397428, 39.90923],
