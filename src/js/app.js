@@ -58,6 +58,7 @@ var map;
 			for(let i=0;i<m.markers.length;i++){
 				if(i===index){
 						m.markers[i].setAnimation('AMAP_ANIMATION_BOUNCE');
+						vm.setInfowindow(m.html[i]).open(map, m.markers[i].getPosition());
 						setTimeout(function(){
 								m.markers[i].setAnimation('AMAP_ANIMATION_NONE');
 						},2400);
