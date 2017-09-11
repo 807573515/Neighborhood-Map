@@ -31,7 +31,7 @@
 		<div class="list">
 			<div>
 				<ul data-bind="foreach:filteredList" id="list">
-					<li data-bind="text:$data,click:function(){$parent.mapMarker($index())}" ></li>
+					<li data-bind="text:$data,click:function(){$parent.mapMarker($data)}" ></li>
 				</ul>
 			</div>
 		</div>

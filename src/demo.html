@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div><span>firstname </span><span data-bind="text:firstname"></span></div>
+	<div><span>lastname </span><span data-bind="text:lastname"></span></div>
+	<div><span>fullname </span><span data-bind="text:fullname"></span></div>
+</body>
+<script src="libs/knockout-3.4.2.debug.js"></script>
+<script type="text/javascript">
+	var m={
+		firstname:ko.observable('tom'),
+		lastname:ko.observable('smith')
+		
+
+	};
+	m.fullname=ko.computed(function(){
+		return m.firstname()+' '+m.lastname();
+	});
+	ko.applyBindings(m);
+
+	// function fnM(){
+	// 	var self=this;
+	// 	self.firstname=ko.observable('tom');
+	// 	self.lastname=ko.observable('smith');
+	// 	self.fullname=ko.computed(function(){
+	// 		return self.firstname()+" "+self.lastname();
+	// 	});
+	// }
+	
+	// ko.applyBindings(new fnM());
+</script>
+</html>

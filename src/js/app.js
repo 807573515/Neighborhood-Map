@@ -5,16 +5,12 @@ function init(){
 //定义全局变量 map
 var map;
 
-/*问题说明*/
-// m在ko.computed()内是undefined 在其他环境中是正常的 这是什么原因呢？
-// 导致m.search()也是undefined的  筛选功能暂时无法完成
-
-
 	var m={
 		initCenter:[116.397428, 39.90923],
 		panel_toggle:ko.observable(false),
 		panel:$('#panel'),
 		menu_btn:$('#menu_btn'),
+		filter_btn:$('#filter_btn'),
 		list:$('#list li'),
 		header_title_width:$('#header_title').width()+40,
 		markers:[],
@@ -22,25 +18,7 @@ var map;
 		transform_width:ko.observable(0),
 		html:new Array(5),
 		search:ko.observable(""),
-		/*测试代码*/
-		fn:function(){
-			console.log(m);
-		},
-		/*测试代码*/
-		search:ko.observable(""),
 		names:['天安门','故宫博物院','汉庭酒店','医院','王府井百货'],
-		filteredList:ko.computed(function(){
-			
-			// console.log(m);
-			if(!m.search()){
-				return names;
-			}
-			else{
-				return names.filter(function(){
-					return names.indexOf(m.search())!=-1;
-				});
-			}
-		}),
 		locations:[
 			{
 				name:'天安门',
@@ -68,9 +46,15 @@ var map;
 				position:[116.409922,39.91345]
 			}
 		],
-		mapMarker:function(index){
+		mapMarker:function(name){
 			//点击列表项 对应的marker跳动
-
+			let index;
+			//根据传进来的name计算index
+			for(let i=0;i<m.names.length;i++){
+				if(name===m.names[i]){
+					index=i;
+				}
+			}
 			for(let i=0;i<m.markers.length;i++){
 				if(i===index){
 						m.markers[i].setAnimation('AMAP_ANIMATION_BOUNCE');
@@ -84,13 +68,17 @@ var map;
 			}
 		}
 	};
-
-
-
-	/*测试*/
-	m.fn();
-	/*测试*/
-
+	m.filteredList=ko.computed(function(){
+			if(!m.search()){
+				return m.names;
+			}
+			else{
+				return m.names.filter(function(name){
+					return name.indexOf(m.search())!=-1;
+				});
+			}
+			
+		});
 
 
 
@@ -145,6 +133,29 @@ var map;
 			//TODO DOM事件添加
 			m.menu_btn.bind('click',function(){
 				vm.panel_animation();
+			});
+			m.filter_btn.bind('click',function(){
+				let index=[];
+				let domLi=$('#list li');
+				let len=domLi.length;
+				//获取需要显示的marker下标数组
+				for(let i=0;i<len;i++){
+					let html=domLi[i].innerHTML;
+					if(m.names.indexOf(html)!=-1){
+						index.push(m.names.indexOf(html));
+					}
+				}
+				//隐藏所有marker
+				for(let i=0;i<m.markers.length;i++){
+						m.markers[i].hide();
+				}
+				//显示正确的marker
+				for(let i=0;i<index.length;i++){
+					m.markers[index[i]].show();
+				}
+				
+
+				
 			});
 
 		},
@@ -206,6 +217,17 @@ var map;
 				}).fail(function(){
 					alert('数据请求出错 请刷新试一下');
 				});
+		},
+		filter:function(m){
+			console.log(m);
+			if(!m.search()){
+				return names;
+			}
+			else{
+				return names.filter(function(){
+					return names.indexOf(m.search())!=-1;
+				});
+			}
 		}
 
 	};
