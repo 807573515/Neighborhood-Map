@@ -80,6 +80,26 @@ var map;
 			}
 			
 		});
+	m.filteredList.subscribe(function(){
+				let index=[];
+				let len=domLi.length;
+				//获取需要显示的marker下标数组 index
+				for(let i=0;i<len;i++){
+					let showedName=m.filteredList()[i]; //获取筛选后需要显示的地点数组 用来计算index数组
+					if(m.names.indexOf(showedName)!=-1){
+						index.push(m.names.indexOf(showedName));
+					}
+				}
+				console.log(index);
+				//隐藏所有marker
+				for(let i=0;i<m.markers.length;i++){
+						m.markers[i].hide();
+				}
+				//显示正确的marker
+				for(let i=0;i<index.length;i++){
+					m.markers[index[i]].show();
+				}
+	});
 
 
 
@@ -135,29 +155,29 @@ var map;
 			m.menu_btn.bind('click',function(){
 				vm.panel_animation();
 			});
-			m.filter_btn.bind('click',function(){
-				let index=[];
-				let domLi=$('#list li');
-				let len=domLi.length;
-				//获取需要显示的marker下标数组
-				for(let i=0;i<len;i++){
-					let html=domLi[i].innerHTML;
-					if(m.names.indexOf(html)!=-1){
-						index.push(m.names.indexOf(html));
-					}
-				}
-				//隐藏所有marker
-				for(let i=0;i<m.markers.length;i++){
-						m.markers[i].hide();
-				}
-				//显示正确的marker
-				for(let i=0;i<index.length;i++){
-					m.markers[index[i]].show();
-				}
+			// m.filter_btn.bind('click',function(){
+			// 	let index=[];
+			// 	let domLi=$('#list li');
+			// 	let len=domLi.length;
+			// 	//获取需要显示的marker下标数组
+			// 	for(let i=0;i<len;i++){
+			// 		let html=domLi[i].innerHTML;
+			// 		if(m.names.indexOf(html)!=-1){
+			// 			index.push(m.names.indexOf(html));
+			// 		}
+			// 	}
+			// 	//隐藏所有marker
+			// 	for(let i=0;i<m.markers.length;i++){
+			// 			m.markers[i].hide();
+			// 	}
+			// 	//显示正确的marker
+			// 	for(let i=0;i<index.length;i++){
+			// 		m.markers[index[i]].show();
+			// 	}
 				
 
 				
-			});
+			// });
 
 		},
 		setMarker:function(position,title,ENname){
