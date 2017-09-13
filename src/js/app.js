@@ -82,7 +82,7 @@ var map;
 		});
 	m.filteredList.subscribe(function(){
 				let index=[];
-				let len=domLi.length;
+				let len=m.filteredList().length;
 				//获取需要显示的marker下标数组 index
 				for(let i=0;i<len;i++){
 					let showedName=m.filteredList()[i]; //获取筛选后需要显示的地点数组 用来计算index数组
